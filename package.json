@@ -2,6 +2,7 @@
   "name": "devtree",
   "version": "1.0.0",
   "description": "Copy of linktree, project with express and typescript",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
