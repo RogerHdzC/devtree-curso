@@ -1,17 +1,10 @@
-import { Router } from 'express'
+import { response, Router } from 'express'
 
 const router = Router()
 
-// Routing
-router.get('/', (request, response) => {
-    response.send('Home')
-})
-
-router.get('/nosotros', (request, response) => {
-    response.send('Nosotros')
-})
-router.get('/blog', (request, response) => {
-    response.send('Blog')
+/** Auth and Register */
+router.post('/auth/register', (request, response) => {
+    console.log("Register")
 })
 
 export default router
