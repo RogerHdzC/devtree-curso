@@ -1,10 +1,5 @@
 import express from 'express'
-
+import router from './router'
 const app = express()
-
-// Routing
-app.get('/', (request, response) => {
-    response.send('Home')
-})
-
+app.use('/',router)
 export default app
