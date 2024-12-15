@@ -1,5 +1,6 @@
 import User from "../models/User"
-export const createAccount = async (request, response) => {
+import { Request, Response } from "express"
+export const createAccount = async (request: Request, response: Response) => {
     const user = new User(request.body)
     await user.save()
 
