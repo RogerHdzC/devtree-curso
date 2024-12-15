@@ -1,9 +1,17 @@
 import { Request, Response } from "express"
+import { validationResult } from 'express-validator'
 import slug from 'slug'
 import User from "../models/User"
 import { hashPassword } from "../utils/auth"
 
 export const createAccount = async (request: Request, response: Response) => {
+
+    let errors = validationResult(request)
+    if(!errors.isEmpty()){
+        response.status(400).json({errors: errors.array()})
+        return
+    }
+
     const {email, password} = request.body
     const userExists = await User.findOne({email})
     if(userExists){
