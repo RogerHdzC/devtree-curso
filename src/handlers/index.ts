@@ -1,16 +1,9 @@
 import { Request, Response } from "express"
-import { validationResult } from 'express-validator'
 import slug from 'slug'
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 
 export const createAccount = async (request: Request, response: Response) => {
-
-    let errors = validationResult(request)
-    if(!errors.isEmpty()){
-        response.status(400).json({errors: errors.array()})
-        return
-    }
 
     const {email, password} = request.body
     const userExists = await User.findOne({email})
@@ -35,11 +28,6 @@ export const createAccount = async (request: Request, response: Response) => {
 }
 
 export const login = async (request: Request, response: Response) =>{
-    let errors = validationResult(request)
-    if(!errors.isEmpty()){
-        response.status(400).json({errors: errors.array()})
-        return
-    }
 
     const {email, password} = request.body
     const user = await User.findOne({email})

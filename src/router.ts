@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
 import { createAccount, login } from './handlers'
+import { handleInputErrors } from './middleware/validation'
 
 const router = Router()
 
@@ -18,6 +19,7 @@ router.post('/auth/register',
     body('email').
         isEmail().
         withMessage('El mail no es válido'),
+    handleInputErrors,
     createAccount)
 
 router.post('/auth/login',
@@ -27,6 +29,7 @@ router.post('/auth/login',
     body('email').
         isEmail().
         withMessage('El mail no es válido'),
+    handleInputErrors,
     login
 )
 
