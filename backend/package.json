@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/RogerHdzC/devtree-curso#readme",
   "dependencies": {
+    "@types/cors": "^2.8.17",
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-validator": "^7.2.0",
