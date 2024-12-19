@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import slug from 'slug'
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
+import { generateJWT } from "../utils/jwt"
 
 export const createAccount = async (request: Request, response: Response) => {
 
@@ -42,6 +43,8 @@ export const login = async (request: Request, response: Response) =>{
         response.status(401).json({error: error.message})
         return;
     }
+
+    generateJWT({id: user.id})
 
     response.send("Auth")
 
