@@ -44,8 +44,33 @@ export const login = async (request: Request, response: Response) =>{
         return;
     }
 
-    generateJWT({id: user.id})
+    const token = generateJWT({id: user.id})
 
-    response.send("Auth")
+    response.send(token)
 
+}
+
+export const getUser = async (request: Request, response: Response) => {
+    response.json(request.user)
+}
+
+export const updateProfile = async (request: Request, response: Response) => {
+    try {
+        const { description } = request.body
+        const handle = slug(request.body.handle, '')
+        const handleExists = await User.findOne({handle})
+        if(handleExists && handleExists.email !== request.user.email){
+            const error = new Error('Nombre de usuario no disponible')
+            response.status(409).json({error: error.message})
+            return;
+        }
+        request.user.description = description
+        request.user.handle = handle
+        await request.user.save()
+        response.send('Perfil Actualizado Correctamente')
+        
+    } catch {
+        const error = new Error('Hubo un error')
+        response.status(500).json({error: error.message})
+    }
 }
