@@ -1,8 +1,11 @@
 import { Request, Response } from "express"
 import slug from 'slug'
+import formidable from 'formidable'
+import { v4 as uuid } from "uuid"
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateJWT } from "../utils/jwt"
+import cloudinary from "../config/cloudinary"
 
 export const createAccount = async (request: Request, response: Response) => {
 
@@ -72,5 +75,32 @@ export const updateProfile = async (request: Request, response: Response) => {
     } catch {
         const error = new Error('Hubo un error')
         response.status(500).json({error: error.message})
+        return
+    }
+}
+
+export const uploadImage = async (request: Request, response: Response) => {
+    const form = formidable({multiples: false})
+
+    try {
+        form.parse(request, (error, fields, files)  => {
+            
+            cloudinary.uploader.upload(files.file[0].filepath, {public_id: uuid()}, async function(error, result){
+                if(error){
+                    const error = new Error('Hubo un error al subir la imagen')
+                    response.status(500).json({error: error.message})
+                    return
+                }
+                if(result){
+                    request.user.image = result.secure_url
+                    await request.user.save()
+                    response.json({image: result.secure_url})
+                }
+            })
+        })
+    } catch{
+        const error = new Error('Hubo un error al subir la imagen')
+        response.status(500).json({error: error.message})
+        return
     }
 }
