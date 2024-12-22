@@ -14,7 +14,7 @@ export default function DevTreeInput({item}: DevTreeInputProps){
             ></div>
             <input
                 type="text"
-                className="flex-1 border border-gray-100"
+                className="flex-1 border border-gray-200"
             />
         </div>
     )
